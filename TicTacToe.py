@@ -38,34 +38,53 @@ def update_grid(user_input, mark):
 # determine winner or tie 
 # return boolean is_end
 # print if winner or tie 
-def determine_winner_or_tie():
-    # check for tie 
+def determine_winner_or_tie(current_player):
+    tie_bool = is_tie(current_player)
+    horizontal_win_bool = is_horizontal_win(current_player)
+    vertical_win_bool = is_vertical_win(current_player)
+    diagonal_win_bool = is_diagonal_win(current_player)
+    # if at least one condition is met then return true 
+    return horizontal_win_bool or tie_bool or vertical_win_bool or diagonal_win_bool
+
+# check for tie 
+# print message and return is_end boolean 
+def is_tie(current_player):
     if (len(played_moves) == 9):
         print("No more grids to play. The game is a tie.")
         return True
-    # check for horizontal win 
+
+# check for horizontal win 
+# print message and return is_end boolean 
+def is_horizontal_win(current_player):
     for row in grid:
         if (row[0] != "-") and (all(element == row[0] for element in row)):
-            print("{} won!".format(row[0]))
+            print("Player {} won!".format(current_player))
             return True
-    # check for vertical win 
+    return False
+
+# check for veritcal win 
+# print message and return is_end boolean 
+def is_vertical_win(current_player):
     for i in range(3):
         col = []
         for j in range(3):
             col.append(grid[j][i])
         if (col[0] != "-") and (all(element == col[0] for element in col)):
-            print("{} won!".format(row[0]))
+            print("Player {} won!".format(current_player))
             return True
-    # check for diagonal win 
+    return False
+
+# check for diagonal win 
+# print message and return is_end boolean 
+def is_diagonal_win(current_player):
     diag1 = [grid[0][0], grid[1][1], grid[2][2]]
     diag2 = [grid[0][2], grid[1][1], grid[2][0]]
     if (diag1[0] != "-") and (all(element == diag1[0] for element in diag1)):
-        print("{} won!".format(row[0]))
+        print("Player {} won!".format(current_player))
         return True
     if (diag2[0] != "-") and (all(element == diag2[0] for element in diag2)):
-        print("{} won!".format(row[0]))
+        print("Player {} won!".format(current_player))
         return True
-    # if above conditions are not met then continue game 
     return False
 
 
@@ -113,7 +132,8 @@ while not is_end:
     print_grid(grid)
 
     # check if game should continue 
-    is_end = determine_winner_or_tie()
+    # print message if end of game 
+    is_end = determine_winner_or_tie(player)
 
 # print message at the end 
 print("Good game!")
