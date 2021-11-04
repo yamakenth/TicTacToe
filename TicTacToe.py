@@ -37,53 +37,56 @@ def update_grid(user_input, mark):
 
 # determine winner or tie 
 # return boolean is_end
-# print if winner or tie 
+# print message
 def determine_winner_or_tie(current_player):
-    tie_bool = is_tie(current_player)
-    horizontal_win_bool = is_horizontal_win(current_player)
-    vertical_win_bool = is_vertical_win(current_player)
-    diagonal_win_bool = is_diagonal_win(current_player)
-    # if at least one condition is met then return true 
-    return horizontal_win_bool or tie_bool or vertical_win_bool or diagonal_win_bool
-
-# check for tie 
-# print message and return is_end boolean 
-def is_tie(current_player):
+    # check if tie 
     if (len(played_moves) == 9):
         print("No more grids to play. The game is a tie.")
         return True
+    
+    # check if win 
+    horizontal_win_bool = is_horizontal_win()
+    vertical_win_bool = is_vertical_win()
+    diagonal_win_bool = is_diagonal_win()
+    if (horizontal_win_bool or vertical_win_bool or diagonal_win_bool):
+        print("Player {} won!".format(current_player))
+        return True
+
+    # if at least one condition is met then return true 
+    return False
 
 # check for horizontal win 
-# print message and return is_end boolean 
-def is_horizontal_win(current_player):
+# print message and return is_win boolean 
+def is_horizontal_win():
     for row in grid:
-        if (row[0] != "-") and (all(element == row[0] for element in row)):
-            print("Player {} won!".format(current_player))
-            return True
+        if is_same_element_in_list(row):
+            return True 
     return False
 
 # check for veritcal win 
-# print message and return is_end boolean 
-def is_vertical_win(current_player):
+# print message and return is_win boolean 
+def is_vertical_win():
     for i in range(3):
         col = []
         for j in range(3):
             col.append(grid[j][i])
-        if (col[0] != "-") and (all(element == col[0] for element in col)):
-            print("Player {} won!".format(current_player))
-            return True
+        if is_same_element_in_list(col):
+            return True 
     return False
 
 # check for diagonal win 
-# print message and return is_end boolean 
-def is_diagonal_win(current_player):
+# print message and return is_win boolean 
+def is_diagonal_win():
     diag1 = [grid[0][0], grid[1][1], grid[2][2]]
     diag2 = [grid[0][2], grid[1][1], grid[2][0]]
-    if (diag1[0] != "-") and (all(element == diag1[0] for element in diag1)):
-        print("Player {} won!".format(current_player))
-        return True
-    if (diag2[0] != "-") and (all(element == diag2[0] for element in diag2)):
-        print("Player {} won!".format(current_player))
+    is_diag1_win = is_same_element_in_list(diag1)
+    is_diag2_win = is_same_element_in_list(diag2)
+    return is_diag1_win or is_diag2_win
+
+# return true if element in list is same 
+# also check if first grid is not empty 
+def is_same_element_in_list(lst):
+    if (lst[0] != "-") and (all(element == lst[0] for element in lst)):
         return True
     return False
 
