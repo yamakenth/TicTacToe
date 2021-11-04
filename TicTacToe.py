@@ -39,14 +39,34 @@ def update_grid(user_input, mark):
 # return boolean is_end
 # print if winner or tie 
 def determine_winner_or_tie():
-    is_end = False 
     # check for tie 
     if (len(played_moves) == 9):
         print("No more grids to play. The game is a tie.")
-        is_end = True
-    
-    return is_end
-    
+        return True
+    # check for horizontal win 
+    for row in grid:
+        if (row[0] != "-") and (all(element == row[0] for element in row)):
+            print("{} won!".format(row[0]))
+            return True
+    # check for vertical win 
+    for i in range(3):
+        col = []
+        for j in range(3):
+            col.append(grid[j][i])
+        if (col[0] != "-") and (all(element == col[0] for element in col)):
+            print("{} won!".format(row[0]))
+            return True
+    # check for diagonal win 
+    diag1 = [grid[0][0], grid[1][1], grid[2][2]]
+    diag2 = [grid[0][2], grid[1][1], grid[2][0]]
+    if (diag1[0] != "-") and (all(element == diag1[0] for element in diag1)):
+        print("{} won!".format(row[0]))
+        return True
+    if (diag2[0] != "-") and (all(element == diag2[0] for element in diag2)):
+        print("{} won!".format(row[0]))
+        return True
+    # if above conditions are not met then continue game 
+    return False
 
 
 # run program 
