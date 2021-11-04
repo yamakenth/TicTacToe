@@ -31,9 +31,8 @@ def is_invalid_input(current_move):
 
 # update grid and return new grid 
 def update_grid(user_input, mark):
-    num = int(user_input)
-    row = int((num - 1) / 3)
-    col = (num - 1) % 3
+    row = int((user_input - 1) / 3)
+    col = (user_input - 1) % 3
     grid[row][col] = mark
     return grid
 
@@ -43,10 +42,9 @@ def update_grid(user_input, mark):
 print("Hello, this is a Tic-tac-toe game. \nType \"q\" if you'd like to quit the game.")
 # print initial grid 
 print_grid(grid)
-# while (no winner) or (grid is not full) or (user wants to quit) prompt user for input 
+# while (no winner) or (grid is not full) prompt user for input 
 is_win = False
-is_quit = False
-while (is_win == False) and (len(played_moves) != 9) and (is_quit == False):
+while (is_win == False) and (len(played_moves) != 9):
     turn += 1
     player = ""
     mark = ""
@@ -64,17 +62,15 @@ while (is_win == False) and (len(played_moves) != 9) and (is_quit == False):
             + "Type a number between 1 and 9.  "
         )
         if (current_move == "q"):
-            is_quit = True
-            break 
+            exit() 
         elif is_invalid_input(current_move):
             print("Sorry, your input is invalid. Please type a number between 1 and 9.")
         else:
             played_moves.append(int(current_move))
             break
-
-
-    # new_grid = update_grid(current_move, mark)
-    # print_grid(new_grid)
+    
+    new_grid = update_grid(int(current_move), mark)
+    print_grid(new_grid)
 
 # print message (if grid is full or winner is determined)
 print("No more grids to play. The game is a tie.")
