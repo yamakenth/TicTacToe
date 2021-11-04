@@ -29,12 +29,24 @@ def is_invalid_input(current_move):
         is_invalid = True
     return is_invalid
 
-# update grid and return new grid 
+# update grid
 def update_grid(user_input, mark):
     row = int((user_input - 1) / 3)
     col = (user_input - 1) % 3
     grid[row][col] = mark
-    return grid
+
+# determine winner or tie 
+# return boolean is_end
+# print if winner or tie 
+def determine_winner_or_tie():
+    is_end = False 
+    # check for tie 
+    if (len(played_moves) == 9):
+        print("No more grids to play. The game is a tie.")
+        is_end = True
+    
+    return is_end
+    
 
 
 # run program 
@@ -77,15 +89,11 @@ while not is_end:
     played_moves.append(int(current_move))
     
     # update and print new grid 
-    new_grid = update_grid(int(current_move), mark)
-    print_grid(new_grid)
+    update_grid(int(current_move), mark)
+    print_grid(grid)
 
     # check if game should continue 
-    # print message (if grid is full or winner is determined)
-    # set is_end = True to exit while loop 
-    if (len(played_moves) == 9):
-        print("No more grids to play. The game is a tie.")
-        is_end = True
+    is_end = determine_winner_or_tie()
 
 # print message at the end 
 print("Good game!")
